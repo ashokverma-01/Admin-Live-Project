@@ -16,6 +16,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.15.1",
     "axios": "^1.6.7",
+    "backend": "file:..",
     "data-grid": "^3.0.0",
     "moment": "^2.30.1",
     "react": "^18.2.0",
