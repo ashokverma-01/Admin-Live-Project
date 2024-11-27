@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Button, Space, Table, Select, Switch, Input, Form, DatePicker, Modal } from "antd"; // Import Modal
+import {
+  Button,
+  Space,
+  Table,
+  Select,
+  Switch,
+  Input,
+  Form,
+  DatePicker,
+  Modal,
+} from "antd"; // Import Modal
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
 import moment from "moment";
-
 
 const { Search } = Input;
 const { Option } = Select;
@@ -14,7 +23,7 @@ const HotelList = () => {
   const [data, setData] = useState([]);
   const [sortedInfo, setSortedInfo] = useState({});
   const [filteredData, setFilteredData] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [pagination, setPagination] = useState({
@@ -32,7 +41,9 @@ const HotelList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:5500/Hotel");
+      const response = await fetch(
+        "https://admin-live-project.onrender.com/Hotel"
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -45,9 +56,12 @@ const HotelList = () => {
 
   const handleModalOk = async () => {
     try {
-      await fetch(`http://localhost:5500/deleteHotel/${deleteId}`, {
-        method: "DELETE",
-      });
+      await fetch(
+        `https://admin-live-project.onrender.com/deleteHotel/${deleteId}`,
+        {
+          method: "DELETE",
+        }
+      );
       fetchData();
     } catch (error) {
       console.error("Error deleting record:", error);
@@ -70,7 +84,9 @@ const HotelList = () => {
   const searchHandle = async (key) => {
     try {
       if (key) {
-        let result = await fetch(`http://localhost:5500/searchHotel/${key}`);
+        let result = await fetch(
+          `https://admin-live-project.onrender.com/searchHotel/${key}`
+        );
         if (!result.ok) {
           throw new Error("Failed to search data");
         }
@@ -86,7 +102,7 @@ const HotelList = () => {
   };
 
   const handleChange = (pagination, filters, sorter, extra) => {
-    console.log('Various parameters', pagination, filters, sorter, extra);
+    console.log("Various parameters", pagination, filters, sorter, extra);
     setSortedInfo(sorter);
     setPagination(pagination);
     const { gender } = filters;
@@ -98,10 +114,6 @@ const HotelList = () => {
     }
   };
 
-
-
-
-
   const columns = [
     {
       title: "Profile",
@@ -109,8 +121,14 @@ const HotelList = () => {
       key: "image",
       render: (image) => (
         <img
-          style={{ width: '80px', height: '80px' }}
-          src={image && `http://localhost:5500/${image.replace(/\\/g, "/")}`} // Prefix with server address
+          style={{ width: "80px", height: "80px" }}
+          src={
+            image &&
+            `https://admin-live-project.onrender.com/${image.replace(
+              /\\/g,
+              "/"
+            )}`
+          } // Prefix with server address
           alt="Hotel Image"
           className="circular-image "
         />
@@ -168,7 +186,12 @@ const HotelList = () => {
           </Link>
           <MdDelete
             onClick={() => handleDelete(record._id)}
-            style={{ width: "20px", height: "20px", color: "red", cursor: "pointer" }}
+            style={{
+              width: "20px",
+              height: "20px",
+              color: "red",
+              cursor: "pointer",
+            }}
           />
         </Space>
       ),
@@ -177,7 +200,14 @@ const HotelList = () => {
 
   return (
     <div className="home">
-      <div className="top" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div
+        className="top"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <div className="search">
           <Space direction="vertical">
             <Search
@@ -189,15 +219,14 @@ const HotelList = () => {
             />
           </Space>
         </div>
-        <div className="filters" style={{ marginLeft: '50px' }}>
-        </div>
+        <div className="filters" style={{ marginLeft: "50px" }}></div>
         <div className="addbtn">
           <Button type="primary">
             <Link to="/hotelNew">+ Add Hotel</Link>
           </Button>
         </div>
       </div>
-      <div className="table" style={{ fontFamily: 'none' }}>
+      <div className="table" style={{ fontFamily: "none" }}>
         <Table
           className="table-container"
           columns={columns}

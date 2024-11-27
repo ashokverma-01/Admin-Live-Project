@@ -27,7 +27,9 @@ const UpdateDriver = () => {
 
   const fetchDataCar = async () => {
     try {
-      const response = await fetch("http://localhost:5500/Car");
+      const response = await fetch(
+        "https://admin-live-project.onrender.com/Car"
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -39,7 +41,9 @@ const UpdateDriver = () => {
   };
 
   const fetchData = async () => {
-    let result = await fetch(`http://localhost:5500/UpdateDriver/${params.id}`);
+    let result = await fetch(
+      `https://admin-live-project.onrender.com/UpdateDriver/${params.id}`
+    );
     result = await result.json();
     setSelectedCar(result.car);
     setDriverName(result.driverName);
@@ -66,7 +70,7 @@ const UpdateDriver = () => {
       formData.append("prevImage", prevImage);
     }
     let result = await fetch(
-      `http://localhost:5500/UpdateDriver/${params.id}`,
+      `https://admin-live-project.onrender.com/UpdateDriver/${params.id}`,
       {
         method: "PUT",
         body: formData,
@@ -162,7 +166,9 @@ const UpdateDriver = () => {
               {(image || prevImage) && (
                 <div>
                   <img
-                    src={`http://localhost:5500/${image || prevImage}`}
+                    src={`https://admin-live-project.onrender.com/${
+                      image || prevImage
+                    }`}
                     alt="Uploaded"
                     style={{
                       width: "100px",

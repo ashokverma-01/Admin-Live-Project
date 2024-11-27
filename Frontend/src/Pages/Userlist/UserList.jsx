@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Button, Space, Table, Select, Switch, Input, Form, DatePicker, Modal } from "antd"; // Import Modal
+import {
+  Button,
+  Space,
+  Table,
+  Select,
+  Switch,
+  Input,
+  Form,
+  DatePicker,
+  Modal,
+} from "antd"; // Import Modal
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
@@ -14,7 +24,7 @@ const UserList = () => {
   const [data, setData] = useState([]);
   const [sortedInfo, setSortedInfo] = useState({});
   const [filteredData, setFilteredData] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [deleteUserId, setDeleteUserId] = useState(null);
 
@@ -33,7 +43,9 @@ const UserList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:5500/User");
+      const response = await fetch(
+        "https://admin-live-project.onrender.com/User"
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -46,9 +58,12 @@ const UserList = () => {
 
   const handleModalOk = async () => {
     try {
-      await fetch(`http://localhost:5500/User/${deleteUserId}`, {
-        method: "DELETE",
-      });
+      await fetch(
+        `https://admin-live-project.onrender.com/User/${deleteUserId}`,
+        {
+          method: "DELETE",
+        }
+      );
       // If the deletion is successful, update the data by refetching
       fetchData();
     } catch (error) {
@@ -69,11 +84,12 @@ const UserList = () => {
     setDeleteModalVisible(true);
   };
 
-
   const searchHandle = async (key) => {
     try {
       if (key) {
-        let result = await fetch(`http://localhost:5500/search/${key}`);
+        let result = await fetch(
+          `https://admin-live-project.onrender.com/search/${key}`
+        );
         if (!result.ok) {
           throw new Error("Failed to search data");
         }
@@ -90,9 +106,8 @@ const UserList = () => {
     }
   };
 
-
   const handleChange = (pagination, filters, sorter, extra) => {
-    console.log('Various parameters', pagination, filters, sorter, extra);
+    console.log("Various parameters", pagination, filters, sorter, extra);
     setSortedInfo(sorter);
     setPagination(pagination);
 
@@ -119,21 +134,26 @@ const UserList = () => {
   const handleDateChange = (dates) => {
     const [fromDate, toDate] = dates;
     let filteredData = data.filter((item) =>
-      moment(item.timeTemps).isBetween(fromDate.startOf('day'), toDate.endOf('day'))
+      moment(item.timeTemps).isBetween(
+        fromDate.startOf("day"),
+        toDate.endOf("day")
+      )
     );
     setFilteredData(filteredData);
   };
 
-
   const handleActiveChange = async (id, active) => {
     try {
-      const response = await fetch(`http://localhost:5500/Active/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ active }), // Send the current switch state as true or false
-      });
+      const response = await fetch(
+        `https://admin-live-project.onrender.com/Active/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ active }), // Send the current switch state as true or false
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to update active state");
       }
@@ -213,9 +233,9 @@ const UserList = () => {
     },
 
     {
-      title: 'Active',
-      dataIndex: 'active',
-      key: 'active',
+      title: "Active",
+      dataIndex: "active",
+      key: "active",
       render: (active, record) => (
         <Switch
           checked={active}
@@ -223,8 +243,8 @@ const UserList = () => {
         />
       ),
       filters: [
-        { text: 'Active', value: true },
-        { text: 'Inactive', value: false },
+        { text: "Active", value: true },
+        { text: "Inactive", value: false },
       ],
       onFilter: (value, record) => record.active === value,
     },
@@ -237,7 +257,12 @@ const UserList = () => {
           </Link>
           <MdDelete
             onClick={() => handleDelete(record._id)}
-            style={{ width: "20px", height: "20px", color: "red", cursor: "pointer" }}
+            style={{
+              width: "20px",
+              height: "20px",
+              color: "red",
+              cursor: "pointer",
+            }}
           />
         </Space>
       ),
@@ -246,7 +271,14 @@ const UserList = () => {
 
   return (
     <div className="home">
-      <div className="top" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div
+        className="top"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <div className="search">
           <Space direction="vertical">
             <Search
@@ -258,10 +290,14 @@ const UserList = () => {
             />
           </Space>
         </div>
-        <div className="filters" style={{ marginLeft: '50px' }}>
+        <div className="filters" style={{ marginLeft: "50px" }}>
           <Form layout="inline">
             <Form.Item label="Filter by Gender">
-              <Select defaultValue="all" onChange={handleGenderChange} style={{ width: 120 }}>
+              <Select
+                defaultValue="all"
+                onChange={handleGenderChange}
+                style={{ width: 120 }}
+              >
                 <Option value="all">All</Option>
                 <Option value="male">Male</Option>
                 <Option value="female">Female</Option>
@@ -272,10 +308,7 @@ const UserList = () => {
         <div className="date-filter">
           <Form layout="inline">
             <Form.Item label="Filter by Date">
-              <RangePicker
-                onChange={handleDateChange}
-                style={{ width: 210 }}
-              />
+              <RangePicker onChange={handleDateChange} style={{ width: 210 }} />
             </Form.Item>
           </Form>
         </div>
@@ -285,7 +318,7 @@ const UserList = () => {
           </Button>
         </div>
       </div>
-      <div className="table" style={{ fontFamily: 'none' }}>
+      <div className="table" style={{ fontFamily: "none" }}>
         <Table
           className="table-container"
           columns={columns}

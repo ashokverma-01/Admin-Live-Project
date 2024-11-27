@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Space, Table, Input, Modal,Switch } from "antd";
+import { Button, Space, Table, Input, Modal, Switch } from "antd";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
@@ -18,7 +18,6 @@ const BrandList = () => {
     pageSize: 4,
   });
 
-
   useEffect(() => {
     fetchData();
   }, [pagination.current]);
@@ -29,7 +28,9 @@ const BrandList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:5500/banners");
+      const response = await fetch(
+        "https://admin-live-project.onrender.com/banners"
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -40,21 +41,20 @@ const BrandList = () => {
     }
   };
 
- 
-
-
   const handleChange = (pagination, filters, sorter, extra) => {
     console.log("Various parameters", pagination, filters, sorter, extra);
     setSortedInfo(sorter);
     setPagination(pagination);
-
   };
 
   const handleModalOk = async () => {
     try {
-      await fetch(`http://localhost:5500/Banner/${deleteCarId}`, {
-        method: "DELETE",
-      });
+      await fetch(
+        `https://admin-live-project.onrender.com/Banner/${deleteCarId}`,
+        {
+          method: "DELETE",
+        }
+      );
       fetchData();
     } catch (error) {
       console.error("Error deleting record:", error);
@@ -76,13 +76,16 @@ const BrandList = () => {
 
   const handleActiveChange = async (id, active) => {
     try {
-      const response = await fetch(`http://localhost:5500/ActiveBanner/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ active }), // Send the current switch state as true or false
-      });
+      const response = await fetch(
+        `https://admin-live-project.onrender.com/ActiveBanner/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ active }), // Send the current switch state as true or false
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to update active state");
       }
@@ -100,8 +103,14 @@ const BrandList = () => {
       key: "image",
       render: (image) => (
         <img
-          style={{ width: '60px', height: '60px',}}
-          src={image && `http://localhost:5500/${image.replace(/\\/g, "/")}`} // Prefix with server address
+          style={{ width: "60px", height: "60px" }}
+          src={
+            image &&
+            `https://admin-live-project.onrender.com/${image.replace(
+              /\\/g,
+              "/"
+            )}`
+          } // Prefix with server address
           alt="Brand Image"
           className="circular-image "
         />
@@ -114,17 +123,16 @@ const BrandList = () => {
     },
 
     {
-        title: 'Status',
-        dataIndex: 'active',
-        key: 'active',
-        render: (active, record) => (
-          <Switch
-            checked={active}
-            onChange={(checked) => handleActiveChange(record._id, checked)}
-          />
-        ),
-    
-      },
+      title: "Status",
+      dataIndex: "active",
+      key: "active",
+      render: (active, record) => (
+        <Switch
+          checked={active}
+          onChange={(checked) => handleActiveChange(record._id, checked)}
+        />
+      ),
+    },
     {
       title: "Date",
       dataIndex: "timeTemps",
@@ -156,17 +164,24 @@ const BrandList = () => {
             <FaRegEdit style={{ width: "20px", height: "20px" }}></FaRegEdit>
           </Link>
           <MdDelete
-            style={{ width: "20px", height: "20px", color: 'red' }}
+            style={{ width: "20px", height: "20px", color: "red" }}
             onClick={() => handleDelete(record._id)}
           />
         </Space>
       ),
     },
-  ]
+  ];
 
   return (
     <div className="home">
-      <div className="top" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div
+        className="top"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <div className="search">Banner </div>
         <div className="addbtn">
           <Button type="primary">

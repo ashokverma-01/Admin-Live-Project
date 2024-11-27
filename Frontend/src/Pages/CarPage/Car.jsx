@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Row, Col, message, Select, Upload } from "antd";
-import { useParams, useNavigate } from 'react-router-dom';
-import moment from 'moment';
+import { useParams, useNavigate } from "react-router-dom";
+import moment from "moment";
 const { Option } = Select;
 
 const CarUpdate = () => {
@@ -33,7 +33,9 @@ const CarUpdate = () => {
 
   const fetchData = async () => {
     try {
-      let result = await fetch(`http://localhost:5500/UpdateCars/${params.id}`);
+      let result = await fetch(
+        `https://admin-live-project.onrender.com/UpdateCars/${params.id}`
+      );
       if (!result.ok) {
         throw new Error("Failed to fetch car data");
       }
@@ -63,7 +65,7 @@ const CarUpdate = () => {
         carName: result.carName,
         color: result.color,
         price: result.price,
-        registrationDate: moment(result.registrationDate, 'YYYY-MM-DD'),
+        registrationDate: moment(result.registrationDate, "YYYY-MM-DD"),
       });
     } catch (error) {
       setError(error.message);
@@ -72,7 +74,9 @@ const CarUpdate = () => {
 
   const fetchBrands = async () => {
     try {
-      const response = await fetch("http://localhost:5500/brands");
+      const response = await fetch(
+        "https://admin-live-project.onrender.com/brands"
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch brands");
       }
@@ -86,7 +90,9 @@ const CarUpdate = () => {
 
   const fetchModels = async (selectedBrand) => {
     try {
-      const response = await fetch(`http://localhost:5500/models?brandId=${selectedBrand}`);
+      const response = await fetch(
+        `https://admin-live-project.onrender.com/models?brandId=${selectedBrand}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch models");
       }
@@ -100,7 +106,9 @@ const CarUpdate = () => {
 
   const fetchVariants = async (selectedModel) => {
     try {
-      const response = await fetch(`http://localhost:5500/variants?modelId=${selectedModel}`);
+      const response = await fetch(
+        `https://admin-live-project.onrender.com/variants?modelId=${selectedModel}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch variants");
       }
@@ -114,7 +122,9 @@ const CarUpdate = () => {
 
   const fetchDrivers = async () => {
     try {
-      const response = await fetch(`http://localhost:5500/Driver`);
+      const response = await fetch(
+        `https://admin-live-project.onrender.com/Driver`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch drivers");
       }
@@ -153,24 +163,27 @@ const CarUpdate = () => {
         formData.append("prevImage", prevImage);
       }
 
-      let result = await fetch(`http://localhost:5500/UpdateCar/${params.id}`, {
-        method: 'PUT',
-        body: formData,
-      });
+      let result = await fetch(
+        `https://admin-live-project.onrender.com/UpdateCar/${params.id}`,
+        {
+          method: "PUT",
+          body: formData,
+        }
+      );
       if (!result.ok) {
         throw new Error("Failed to update car data");
       }
       result = await result.json();
       console.log(result);
       message.success("Car data updated successfully");
-      navigate('/cars');
+      navigate("/cars");
     } catch (error) {
       setError(error.message);
     }
   };
 
   const handleImageChange = (info) => {
-    if (info.file.status === 'done' || info.file.status === 'error') {
+    if (info.file.status === "done" || info.file.status === "error") {
       // If file is uploaded successfully or there is an error
       const file = info.file.originFileObj;
       setImage(file); // Set the image object
@@ -189,7 +202,7 @@ const CarUpdate = () => {
                 value={selectedBrand}
                 onChange={handleBrandChange}
               >
-                {brandOptions.map(brand => (
+                {brandOptions.map((brand) => (
                   <Option key={brand._id} value={brand._id}>
                     {brand.brand}
                   </Option>
@@ -204,7 +217,7 @@ const CarUpdate = () => {
                 value={selectedModel}
                 onChange={handleModelChange}
               >
-                {modelOptions.map(model => (
+                {modelOptions.map((model) => (
                   <Option key={model._id} value={model._id}>
                     {model.model}
                   </Option>
@@ -219,7 +232,7 @@ const CarUpdate = () => {
                 value={selectedVarient}
                 onChange={(value) => setSelectedVarient(value)}
               >
-                {varientOptions.map(variant => (
+                {varientOptions.map((variant) => (
                   <Option key={variant._id} value={variant._id}>
                     {variant.variant}
                   </Option>
@@ -229,22 +242,40 @@ const CarUpdate = () => {
           </Col>
           <Col span={12}>
             <Form.Item label="Year" name="year">
-              <Input type="number" className="input-field" value={year} onChange={e => setYear(e.target.value)} />
+              <Input
+                type="number"
+                className="input-field"
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item label="Price" name="price">
-              <Input type="number" className="input-field" value={price} onChange={e => setPrice(e.target.value)} />
+              <Input
+                type="number"
+                className="input-field"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item label="Color" name="color">
-              <Input className="input-field" value={color} onChange={e => setColor(e.target.value)} />
+              <Input
+                className="input-field"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item label="Car Name" name="carName">
-              <Input className="input-field" value={color} onChange={e => setCar(e.target.value)} />
+              <Input
+                className="input-field"
+                value={color}
+                onChange={(e) => setCar(e.target.value)}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -253,7 +284,7 @@ const CarUpdate = () => {
                 type="date"
                 className="input-field"
                 value={moment(registrationDate).format("YYYY-MM-DD")} // Format the date using moment
-                onChange={e => setRegistrationDate(e.target.value)}
+                onChange={(e) => setRegistrationDate(e.target.value)}
               />
             </Form.Item>
           </Col>
@@ -264,14 +295,26 @@ const CarUpdate = () => {
               </Upload>
               {(image || prevImage) && (
                 <div>
-                  <img src={`http://localhost:5500/${image || prevImage}`} alt="Uploaded" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
+                  <img
+                    src={`https://admin-live-project.onrender.com/${
+                      image || prevImage
+                    }`}
+                    alt="Uploaded"
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      borderRadius: "50%",
+                    }}
+                  />
                 </div>
               )}
             </Form.Item>
           </Col>
         </Row>
         <Form.Item>
-          <Button className="submit-btn" type="primary" htmlType="submit">Update</Button>
+          <Button className="submit-btn" type="primary" htmlType="submit">
+            Update
+          </Button>
         </Form.Item>
       </Form>
       {error && <div>Error: {error}</div>}

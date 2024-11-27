@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
 import moment from "moment";
 import { FaEye } from "react-icons/fa";
-import './DriverList.scss'
+import "./DriverList.scss";
 const { Search } = Input;
 
 const DriverList = () => {
@@ -13,7 +13,7 @@ const DriverList = () => {
   const [sortedInfo, setSortedInfo] = useState({});
   const [filteredData, setFilteredData] = useState([]);
   const [driverVehicles, setDriverVehicles] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [deleteDriverId, setDeleteDriverId] = useState(null);
   const [viewModalVisible, setViewModalVisible] = useState(false);
@@ -33,7 +33,9 @@ const DriverList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:5500/Driver");
+      const response = await fetch(
+        "https://admin-live-project.onrender.com/Driver"
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -46,9 +48,12 @@ const DriverList = () => {
 
   const handleModalOk = async () => {
     try {
-      await fetch(`http://localhost:5500/Driver/${deleteDriverId}`, {
-        method: "DELETE",
-      });
+      await fetch(
+        `https://admin-live-project.onrender.com/Driver/${deleteDriverId}`,
+        {
+          method: "DELETE",
+        }
+      );
       fetchData();
     } catch (error) {
       console.error("Error deleting record:", error);
@@ -69,7 +74,9 @@ const DriverList = () => {
 
   const handleView = async (driverId) => {
     try {
-      const driverResponse = await fetch(`http://localhost:5500/get-driver/${driverId}`);
+      const driverResponse = await fetch(
+        `https://admin-live-project.onrender.com/get-driver/${driverId}`
+      );
       if (!driverResponse.ok) {
         throw new Error("Failed to fetch driver details");
       }
@@ -81,17 +88,19 @@ const DriverList = () => {
     }
   };
 
-
   const handleViewModalCancel = () => {
     setSelectedDriver(null);
     setDriverVehicles([]);
     setViewModalVisible(false);
   };
 
-  const searchHandle = async (value) => { // Corrected parameter name
+  const searchHandle = async (value) => {
+    // Corrected parameter name
     try {
       if (value) {
-        let result = await fetch(`http://localhost:5500/searchDriver/${value}`);
+        let result = await fetch(
+          `https://admin-live-project.onrender.com/searchDriver/${value}`
+        );
         if (!result.ok) {
           throw new Error("Failed to search data");
         }
@@ -108,13 +117,16 @@ const DriverList = () => {
 
   const handleActiveChange = async (id, active) => {
     try {
-      const response = await fetch(`http://localhost:5500/ActiveDriver/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ active }),
-      });
+      const response = await fetch(
+        `https://admin-live-project.onrender.com/ActiveDriver/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ active }),
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to update active state");
       }
@@ -125,7 +137,7 @@ const DriverList = () => {
   };
 
   const handleChange = (pagination, filters, sorter, extra) => {
-    console.log('Various parameters', pagination, filters, sorter, extra);
+    console.log("Various parameters", pagination, filters, sorter, extra);
     setSortedInfo(sorter);
     setPagination(pagination);
     const { gender } = filters;
@@ -145,8 +157,14 @@ const DriverList = () => {
       render: (image, record) => (
         <img
           key={record._id}
-          style={{ width: '60px', height: '60px', borderRadius: '50%' }}
-          src={image && `http://localhost:5500/${image.replace(/\\/g, "/")}`}
+          style={{ width: "60px", height: "60px", borderRadius: "50%" }}
+          src={
+            image &&
+            `https://admin-live-project.onrender.com/${image.replace(
+              /\\/g,
+              "/"
+            )}`
+          }
           alt="Driver Image"
           className="circular-image "
         />
@@ -203,9 +221,9 @@ const DriverList = () => {
       },
     },
     {
-      title: 'Active',
-      dataIndex: 'active',
-      key: 'active',
+      title: "Active",
+      dataIndex: "active",
+      key: "active",
       render: (active, record) => (
         <Switch
           checked={active}
@@ -213,8 +231,8 @@ const DriverList = () => {
         />
       ),
       filters: [
-        { text: 'Active', value: true },
-        { text: 'Inactive', value: false },
+        { text: "Active", value: true },
+        { text: "Inactive", value: false },
       ],
       onFilter: (value, record) => record.active === value,
     },
@@ -222,13 +240,21 @@ const DriverList = () => {
       title: "Action",
       render: (text, record) => (
         <Space size="middle">
-          <FaEye style={{ width: "20px", height: "20px", color: 'black' }} onClick={() => handleView(record._id)} />
+          <FaEye
+            style={{ width: "20px", height: "20px", color: "black" }}
+            onClick={() => handleView(record._id)}
+          />
           <Link to={"/driver/" + record._id}>
             <FaRegEdit style={{ width: "20px", height: "20px" }}></FaRegEdit>
           </Link>
           <MdDelete
             onClick={() => handleDelete(record._id)}
-            style={{ width: "20px", height: "20px", color: "red", cursor: "pointer" }}
+            style={{
+              width: "20px",
+              height: "20px",
+              color: "red",
+              cursor: "pointer",
+            }}
           />
         </Space>
       ),
@@ -237,7 +263,14 @@ const DriverList = () => {
 
   return (
     <div className="home">
-      <div className="top" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div
+        className="top"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <div className="search">
           <Space direction="vertical">
             <Search
@@ -249,16 +282,14 @@ const DriverList = () => {
             />
           </Space>
         </div>
-        <div className="filters" style={{ marginLeft: '50px' }}>
-
-        </div>
+        <div className="filters" style={{ marginLeft: "50px" }}></div>
         <div className="addbtn">
           <Button type="primary">
             <Link to="/newDriver">+ Add Driver</Link>
           </Button>
         </div>
       </div>
-      <div className="table" style={{ fontFamily: 'none' }}>
+      <div className="table" style={{ fontFamily: "none" }}>
         <Table
           className="table-container"
           columns={columns}
@@ -278,7 +309,7 @@ const DriverList = () => {
       </Modal>
 
       <Modal
-        style={{ width: '100%' }}
+        style={{ width: "100%" }}
         className="driver-details-modal"
         visible={viewModalVisible}
         onCancel={handleViewModalCancel}
@@ -290,37 +321,52 @@ const DriverList = () => {
               <tr>
                 <td>
                   <img
-                    style={{ width: '100px', height: '100px', borderRadius: '50%' }}
-                    src={selectedDriver.image ? `http://localhost:5500/${selectedDriver.image}` : `http://localhost:5500/Driver`}
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      borderRadius: "50%",
+                    }}
+                    src={
+                      selectedDriver.image
+                        ? `https://admin-live-project.onrender.com/${selectedDriver.image}`
+                        : `https://admin-live-project.onrender.com/Driver`
+                    }
                     alt="Driver"
                     className="driver-image"
                   />
                 </td>
                 <td className="driver-info">
-                  <table style={{ marginLeft: '30px' }}>
+                  <table style={{ marginLeft: "30px" }}>
                     <thead>
                       <tr>
                         <th colSpan="2">Driver Details</th>
                       </tr>
                     </thead>
-                    <tbody style={{ marginLeft: '50px' }}>
+                    <tbody style={{ marginLeft: "50px" }}>
                       <tr>
-                        <td >Name :</td>
-                        <td style={{ color: 'blue' }}>{selectedDriver.driverName}</td>
+                        <td>Name :</td>
+                        <td style={{ color: "blue" }}>
+                          {selectedDriver.driverName}
+                        </td>
                       </tr>
                       <tr>
                         <td>Phone :</td>
-                        <td style={{ color: 'blue' }}>{selectedDriver.phoneNumber}</td>
+                        <td style={{ color: "blue" }}>
+                          {selectedDriver.phoneNumber}
+                        </td>
                       </tr>
                       <tr>
                         <td>Address :</td>
-                        <td style={{ color: 'blue' }}>{selectedDriver.address}</td>
+                        <td style={{ color: "blue" }}>
+                          {selectedDriver.address}
+                        </td>
                       </tr>
                       <tr>
                         <td>Email :</td>
-                        <td style={{ color: 'blue' }}>{selectedDriver.email}</td>
+                        <td style={{ color: "blue" }}>
+                          {selectedDriver.email}
+                        </td>
                       </tr>
-
                     </tbody>
                   </table>
                 </td>
@@ -332,15 +378,22 @@ const DriverList = () => {
         <hr />
 
         {selectedDriver?.car ? (
-
           <table className="car-table">
             <tbody>
               <tr key={selectedDriver?.car?._id}>
                 <td>
                   {selectedDriver?.car?.image ? (
                     <img
-                      style={{ width: '130px', height: "115px", marginTop: '8px' }}
-                      src={selectedDriver?.car?.image ? `http://localhost:5500/${selectedDriver?.car?.image}` : `http://localhost:5500/Car`}
+                      style={{
+                        width: "130px",
+                        height: "115px",
+                        marginTop: "8px",
+                      }}
+                      src={
+                        selectedDriver?.car?.image
+                          ? `https://admin-live-project.onrender.com/${selectedDriver?.car?.image}`
+                          : `https://admin-live-project.onrender.com/Car`
+                      }
                       alt="Car Image"
                       className="car-image"
                     />
@@ -350,25 +403,34 @@ const DriverList = () => {
                 </td>
                 <tr>
                   <td>Brand :</td>
-                  <td style={{ color: 'blue' }}>{selectedDriver?.car?.brand.brand}</td>
+                  <td style={{ color: "blue" }}>
+                    {selectedDriver?.car?.brand.brand}
+                  </td>
                 </tr>
                 <tr>
                   <td>Model :</td>
-                  <td style={{ color: 'blue' }}>{selectedDriver?.car?.model.model}</td>
+                  <td style={{ color: "blue" }}>
+                    {selectedDriver?.car?.model.model}
+                  </td>
                 </tr>
                 <tr>
                   <td>Variant :</td>
-                  <td style={{ color: 'blue' }}>{selectedDriver?.car?.variant.variant}</td>
+                  <td style={{ color: "blue" }}>
+                    {selectedDriver?.car?.variant.variant}
+                  </td>
                 </tr>
                 <tr>
                   <td>Car Name :</td>
-                  <td style={{ color: 'blue' }}>{selectedDriver?.car?.carName}</td>
+                  <td style={{ color: "blue" }}>
+                    {selectedDriver?.car?.carName}
+                  </td>
                 </tr>
                 <tr>
                   <td>Price :</td>
-                  <td style={{ color: 'blue' }}>{selectedDriver?.car?.price}</td>
+                  <td style={{ color: "blue" }}>
+                    {selectedDriver?.car?.price}
+                  </td>
                 </tr>
-
               </tr>
             </tbody>
           </table>
@@ -378,8 +440,7 @@ const DriverList = () => {
 
         {!selectedDriver && <p>No driver selected</p>}
       </Modal>
-
-    </div >
+    </div>
   );
 };
 

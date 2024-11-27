@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Form, Input, Select, Button, message } from 'antd'; // Import Ant Design components
-import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Form, Input, Select, Button, message } from "antd"; // Import Ant Design components
+import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 
@@ -20,84 +20,95 @@ const UpdateVariantForm = () => {
 
   const fetchData = async () => {
     try {
-      const brandsResponse = await axios.get('http://localhost:5500/brands');
+      const brandsResponse = await axios.get(
+        "https://admin-live-project.onrender.com/brands"
+      );
       if (brandsResponse && brandsResponse.data) {
         setBrands(brandsResponse.data);
         setLoading(false);
       } else {
-        console.error('Invalid response format');
-        console.log('brandsResponse:', brandsResponse.data);
-
+        console.error("Invalid response format");
+        console.log("brandsResponse:", brandsResponse.data);
       }
     } catch (error) {
-      console.error('Error fetching brands:', error);
-      message.error('Failed to fetch brands');
+      console.error("Error fetching brands:", error);
+      message.error("Failed to fetch brands");
     }
 
     try {
-      const variantResponse = await axios.get(`http://localhost:5500/VarientUpdate/${id}`);
+      const variantResponse = await axios.get(
+        `https://admin-live-project.onrender.com/VarientUpdate/${id}`
+      );
       if (variantResponse && variantResponse.data) {
         const { variant, brand, model } = variantResponse.data;
         setVariant(variant);
         form.setFieldsValue({ variant, brandId: brand, modelId: model }); // Set form values here
         fetchModels(brand);
       } else {
-        console.error('Invalid response format');
+        console.error("Invalid response format");
       }
     } catch (error) {
-      console.error('Error fetching variant details:', error);
-      message.error('Failed to fetch variant details');
+      console.error("Error fetching variant details:", error);
+      message.error("Failed to fetch variant details");
     }
   };
 
   const fetchModels = async (brandId) => {
     try {
-      const modelsResponse = await axios.get(`http://localhost:5500/models?brandId=${brandId}`);
+      const modelsResponse = await axios.get(
+        `https://admin-live-project.onrender.com/models?brandId=${brandId}`
+      );
       if (modelsResponse && modelsResponse.data) {
         setModels(modelsResponse.data);
       } else {
-        console.error('Invalid response format');
-        message.error('Failed to fetch models');
+        console.error("Invalid response format");
+        message.error("Failed to fetch models");
       }
     } catch (error) {
-      console.error('Error fetching models:', error);
-      message.error('Failed to fetch models');
+      console.error("Error fetching models:", error);
+      message.error("Failed to fetch models");
     }
   };
 
-
   const onFinish = async (values) => {
     try {
-      const response = await axios.put(`http://localhost:5500/variants/${id}`, {
-        variant: values.variant,
-        brandId: values.brandId,
-        modelId: values.modelId
-      });
+      const response = await axios.put(
+        `https://admin-live-project.onrender.com/variants/${id}`,
+        {
+          variant: values.variant,
+          brandId: values.brandId,
+          modelId: values.modelId,
+        }
+      );
       console.log(response.data);
-      message.success('Variant updated successfully');
-      navigate('/varients');
+      message.success("Variant updated successfully");
+      navigate("/varients");
     } catch (error) {
-      console.error('Error updating variant:', error);
-      message.error('Failed to update variant');
+      console.error("Error updating variant:", error);
+      message.error("Failed to update variant");
     }
   };
 
   return (
-    <div className='new-car-form-container'>
+    <div className="new-car-form-container">
       {!loading && (
         <Form form={form} onFinish={onFinish} layout="vertical">
           <Form.Item
             label="Variant"
             name="variant"
-            rules={[{ required: true, message: 'Please enter the variant' }]}
+            rules={[{ required: true, message: "Please enter the variant" }]}
           >
-            <Input className="input-field" value={variant} onChange={e => setVariant(e.target.value)} />
+            <Input
+              className="input-field"
+              value={variant}
+              onChange={(e) => setVariant(e.target.value)}
+            />
           </Form.Item>
 
           <Form.Item
             label="Brand"
             name="brandId"
-            rules={[{ required: true, message: 'Please select a brand' }]}
+            rules={[{ required: true, message: "Please select a brand" }]}
           >
             <Select onChange={(value) => fetchModels(value)}>
               {brands.map((brand) => (
@@ -111,7 +122,7 @@ const UpdateVariantForm = () => {
           <Form.Item
             label="Model"
             name="modelId"
-            rules={[{ required: true, message: 'Please select a model' }]}
+            rules={[{ required: true, message: "Please select a model" }]}
           >
             <Select>
               {models.map((model) => (
@@ -123,7 +134,7 @@ const UpdateVariantForm = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" style={{ width: '100%' }} htmlType="submit">
+            <Button type="primary" style={{ width: "100%" }} htmlType="submit">
               Update Variant
             </Button>
           </Form.Item>

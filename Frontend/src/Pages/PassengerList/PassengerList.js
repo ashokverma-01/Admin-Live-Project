@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Button, Space, Table, Select, Switch, Input, Form, DatePicker, Modal } from "antd"; // Import Modal
+import {
+  Button,
+  Space,
+  Table,
+  Select,
+  Switch,
+  Input,
+  Form,
+  DatePicker,
+  Modal,
+} from "antd"; // Import Modal
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
 import moment from "moment";
-
 
 const { Search } = Input;
 const { Option } = Select;
@@ -14,7 +23,7 @@ const PassengerList = () => {
   const [data, setData] = useState([]);
   const [sortedInfo, setSortedInfo] = useState({});
   const [filteredData, setFilteredData] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [deleteDriverId, setDeleteDriverId] = useState(null);
   const [pagination, setPagination] = useState({
@@ -32,7 +41,9 @@ const PassengerList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:5500/Passenger");
+      const response = await fetch(
+        "https://admin-live-project.onrender.com/Passenger"
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -45,9 +56,12 @@ const PassengerList = () => {
 
   const handleModalOk = async () => {
     try {
-      await fetch(`http://localhost:5500/Passenger/${deleteDriverId}`, {
-        method: "DELETE",
-      });
+      await fetch(
+        `https://admin-live-project.onrender.com/Passenger/${deleteDriverId}`,
+        {
+          method: "DELETE",
+        }
+      );
       fetchData();
     } catch (error) {
       console.error("Error deleting record:", error);
@@ -70,7 +84,9 @@ const PassengerList = () => {
   const searchHandle = async (key) => {
     try {
       if (key) {
-        let result = await fetch(`http://localhost:5500/searchPassenger/${key}`);
+        let result = await fetch(
+          `https://admin-live-project.onrender.com/searchPassenger/${key}`
+        );
         if (!result.ok) {
           throw new Error("Failed to search data");
         }
@@ -86,7 +102,7 @@ const PassengerList = () => {
   };
 
   const handleChange = (pagination, filters, sorter, extra) => {
-    console.log('Various parameters', pagination, filters, sorter, extra);
+    console.log("Various parameters", pagination, filters, sorter, extra);
     setSortedInfo(sorter);
     setPagination(pagination);
     const { gender } = filters;
@@ -98,17 +114,18 @@ const PassengerList = () => {
     }
   };
 
-
-
   const handleActiveChange = async (id, active) => {
     try {
-      const response = await fetch(`http://localhost:5500/ActivePassenger/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ active }), // Send the current switch state as true or false
-      });
+      const response = await fetch(
+        `https://admin-live-project.onrender.com/ActivePassenger/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ active }), // Send the current switch state as true or false
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to update active state");
       }
@@ -126,8 +143,14 @@ const PassengerList = () => {
       key: "image",
       render: (image) => (
         <img
-          style={{ width: '60px', height: '60px', borderRadius: '50%' }}
-          src={image && `http://localhost:5500/${image.replace(/\\/g, "/")}`} // Prefix with server address
+          style={{ width: "60px", height: "60px", borderRadius: "50%" }}
+          src={
+            image &&
+            `https://admin-live-project.onrender.com/${image.replace(
+              /\\/g,
+              "/"
+            )}`
+          } // Prefix with server address
           alt="passenger Image"
           className="circular-image "
         />
@@ -179,9 +202,9 @@ const PassengerList = () => {
       },
     },
     {
-      title: 'Active',
-      dataIndex: 'active',
-      key: 'active',
+      title: "Active",
+      dataIndex: "active",
+      key: "active",
       render: (active, record) => (
         <Switch
           checked={active}
@@ -189,8 +212,8 @@ const PassengerList = () => {
         />
       ),
       filters: [
-        { text: 'Active', value: true },
-        { text: 'Inactive', value: false },
+        { text: "Active", value: true },
+        { text: "Inactive", value: false },
       ],
       onFilter: (value, record) => record.active === value,
     },
@@ -203,7 +226,12 @@ const PassengerList = () => {
           </Link>
           <MdDelete
             onClick={() => handleDelete(record._id)}
-            style={{ width: "20px", height: "20px", color: "red", cursor: "pointer" }}
+            style={{
+              width: "20px",
+              height: "20px",
+              color: "red",
+              cursor: "pointer",
+            }}
           />
         </Space>
       ),
@@ -212,7 +240,14 @@ const PassengerList = () => {
 
   return (
     <div className="home">
-      <div className="top" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div
+        className="top"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <div className="search">
           <Space direction="vertical">
             <Search
@@ -224,15 +259,14 @@ const PassengerList = () => {
             />
           </Space>
         </div>
-        <div className="filters" style={{ marginLeft: '50px' }}>
-        </div>
+        <div className="filters" style={{ marginLeft: "50px" }}></div>
         <div className="addbtn">
           <Button type="primary">
             <Link to="/passengerNew">+ Add Passenger</Link>
           </Button>
         </div>
       </div>
-      <div className="table" style={{ fontFamily: 'none' }}>
+      <div className="table" style={{ fontFamily: "none" }}>
         <Table
           className="table-container"
           columns={columns}

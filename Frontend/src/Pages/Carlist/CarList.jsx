@@ -30,7 +30,9 @@ const CarList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:5500/Car");
+      const response = await fetch(
+        "https://admin-live-project.onrender.com/Car"
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -43,9 +45,12 @@ const CarList = () => {
 
   const handleModalOk = async () => {
     try {
-      await fetch(`http://localhost:5500/Car/${deleteCarId}`, {
-        method: "DELETE",
-      });
+      await fetch(
+        `https://admin-live-project.onrender.com/Car/${deleteCarId}`,
+        {
+          method: "DELETE",
+        }
+      );
       fetchData();
     } catch (error) {
       console.error("Error deleting record:", error);
@@ -68,7 +73,9 @@ const CarList = () => {
   const searchHandle = async (key) => {
     try {
       if (key) {
-        let result = await fetch(`http://localhost:5500/searchCar/${key}`);
+        let result = await fetch(
+          `https://admin-live-project.onrender.com/searchCar/${key}`
+        );
         if (!result.ok) {
           throw new Error("Failed to search data");
         }
@@ -76,7 +83,6 @@ const CarList = () => {
         setData(result);
       } else {
         fetchData();
-
       }
       setSearchValue("");
     } catch (error) {
@@ -107,8 +113,14 @@ const CarList = () => {
       key: "image",
       render: (image) => (
         <img
-          style={{ width: '80px', height: '80px' }}
-          src={image && `http://localhost:5500/${image.replace(/\\/g, "/")}`} // Prefix with server address
+          style={{ width: "80px", height: "80px" }}
+          src={
+            image &&
+            `https://admin-live-project.onrender.com/${image.replace(
+              /\\/g,
+              "/"
+            )}`
+          } // Prefix with server address
           alt="Car Image"
           className="circular-image"
         />
@@ -169,7 +181,7 @@ const CarList = () => {
             <FaRegEdit style={{ width: "20px", height: "20px" }}></FaRegEdit>
           </Link>
           <MdDelete
-            style={{ width: "20px", height: "20px", color: 'red' }}
+            style={{ width: "20px", height: "20px", color: "red" }}
             onClick={() => handleDelete(record._id)}
           />
         </Space>
@@ -179,7 +191,14 @@ const CarList = () => {
 
   return (
     <div className="home">
-      <div className="top" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div
+        className="top"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <div className="search">
           <Search
             placeholder="search by car name"
@@ -187,10 +206,14 @@ const CarList = () => {
             style={{ width: 300 }}
           />
         </div>
-        <div className="filters" style={{ marginLeft: '50px' }}>
+        <div className="filters" style={{ marginLeft: "50px" }}>
           <Form layout="inline">
             <Form.Item label="Filter by Color">
-              <Select defaultValue="all" onChange={handleColorChange} style={{ width: 120 }}>
+              <Select
+                defaultValue="all"
+                onChange={handleColorChange}
+                style={{ width: 120 }}
+              >
                 <Option value="all">All</Option>
                 <Option value="Black">Black</Option>
                 <Option value="White">White</Option>

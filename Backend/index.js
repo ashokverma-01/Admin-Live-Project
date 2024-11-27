@@ -25,7 +25,7 @@ const PORT = process.env.PORT || 3004;
 app.use(express.json());
 
 const corsOptions = {
-  origin: "https://localhost:6002",
+  origin: "https://admin-live-project.onrender.com",
   credentials: true,
 };
 app.use(cors(corsOptions));

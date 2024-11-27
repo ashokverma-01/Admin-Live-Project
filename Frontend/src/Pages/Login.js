@@ -1,9 +1,8 @@
-import "./Login.css"
+import "./Login.css";
 import React from "react";
 import { Input, Button, Form, message } from "antd";
 import { useNavigate } from "react-router-dom";
 // import backgroundImage from "./BannerImage/.jpg";
-
 
 const Login = () => {
   const [form] = Form.useForm();
@@ -11,22 +10,24 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:5500/User", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: form.getFieldValue("email"),
-          password: form.getFieldValue("password"),
-        }),
-      });
+      const response = await fetch(
+        "https://admin-live-project.onrender.com/User",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: form.getFieldValue("email"),
+            password: form.getFieldValue("password"),
+          }),
+        }
+      );
 
       let data = JSON.stringify({
         email: form.getFieldValue("email"),
         password: form.getFieldValue("password"),
       });
-
 
       if (response.ok) {
         const data = await response.json();
@@ -45,37 +46,24 @@ const Login = () => {
     }
   };
 
-
-
   return (
-    <div className="container2" >
+    <div className="container2">
       {/* <div className="background-image-container">
         <img src={backgroundImage} alt="Background" className="background-image" />
       </div> */}
 
       <h1>Login</h1>
-      <Form
-        form={form}
-        className="form"
-      >
-
+      <Form form={form} className="form">
         <Form.Item label="Email" name="email">
-          <Input style={{ marginLeft: '22px', width: '94%' }} />
+          <Input style={{ marginLeft: "22px", width: "94%" }} />
         </Form.Item>
-        <Form.Item
-          label="Password"
-          name="password"
-        >
+        <Form.Item label="Password" name="password">
           <Input.Password />
         </Form.Item>
-        <Button className="btnform"
-          type="primary"
-          onClick={handleLogin}
-        >
+        <Button className="btnform" type="primary" onClick={handleLogin}>
           Login
         </Button>
       </Form>
-
     </div>
   );
 };

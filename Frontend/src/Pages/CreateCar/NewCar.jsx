@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button, DatePicker, message, Row, Col, Select, Upload } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  DatePicker,
+  message,
+  Row,
+  Col,
+  Select,
+  Upload,
+} from "antd";
 import "./newCar.scss";
 import { useNavigate } from "react-router-dom";
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
@@ -15,42 +25,49 @@ const NewCar = () => {
   const [models, setModels] = useState([]);
   const [variants, setVariants] = useState([]);
 
-
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
-      formData.append('modelId', values.model);
-      formData.append('brandId', values.brand);
-      formData.append('variantId', values.variant);
-      formData.append('year', values.year);
-      formData.append('carName', values.carName);
-      formData.append('price', values.price);
-      formData.append('color', values.color);
-      formData.append('registrationDate', values.registrationDate.format('YYYY-MM-DD'));
-      formData.append('image', values.image[0].originFileObj);
+      formData.append("modelId", values.model);
+      formData.append("brandId", values.brand);
+      formData.append("variantId", values.variant);
+      formData.append("year", values.year);
+      formData.append("carName", values.carName);
+      formData.append("price", values.price);
+      formData.append("color", values.color);
+      formData.append(
+        "registrationDate",
+        values.registrationDate.format("YYYY-MM-DD")
+      );
+      formData.append("image", values.image[0].originFileObj);
 
-      const response = await fetch('http://localhost:5500/Addcar', {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await fetch(
+        "https://admin-live-project.onrender.com/Addcar",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to add new car');
+        throw new Error("Failed to add new car");
       }
 
-      message.success('New car added successfully');
+      message.success("New car added successfully");
       // Optionally, you can redirect to another page after successful submission
-      navigate('/cars'); // Redirect to the cars page
+      navigate("/cars"); // Redirect to the cars page
     } catch (error) {
-      console.error('Submission failed:', error);
-      message.error('Failed to add new car');
+      console.error("Submission failed:", error);
+      message.error("Failed to add new car");
     }
   };
 
   // Fetch brands from the server
   const fetchBrands = async () => {
     try {
-      const response = await fetch("http://localhost:5500/brands");
+      const response = await fetch(
+        "https://admin-live-project.onrender.com/brands"
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch brands");
       }
@@ -65,7 +82,9 @@ const NewCar = () => {
   // Fetch models based on selected brand
   const fetchModels = async (brandId) => {
     try {
-      const response = await fetch(`http://localhost:5500/models?brandId=${brandId}`);
+      const response = await fetch(
+        `https://admin-live-project.onrender.com/models?brandId=${brandId}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch models");
       }
@@ -80,7 +99,9 @@ const NewCar = () => {
   // Fetch variants based on selected model
   const fetchVariants = async (modelId) => {
     try {
-      const response = await fetch(`http://localhost:5500/variants?modelId=${modelId}`);
+      const response = await fetch(
+        `https://admin-live-project.onrender.com/variants?modelId=${modelId}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch variants");
       }
@@ -91,8 +112,6 @@ const NewCar = () => {
       message.error("Failed to fetch variants");
     }
   };
-
-
 
   useEffect(() => {
     fetchBrands();
@@ -107,7 +126,7 @@ const NewCar = () => {
         setModels([]);
       }
     } catch (error) {
-      console.error('Error handling brand change:', error);
+      console.error("Error handling brand change:", error);
     }
   };
 
@@ -120,7 +139,7 @@ const NewCar = () => {
         setVariants([]);
       }
     } catch (error) {
-      console.error('Error handling model change:', error);
+      console.error("Error handling model change:", error);
     }
   };
 
@@ -236,9 +255,14 @@ const NewCar = () => {
             <Form.Item
               label="Registration Date"
               name="registrationDate"
-              rules={[{ required: true, message: "Please select registration date" }]}
+              rules={[
+                { required: true, message: "Please select registration date" },
+              ]}
             >
-              <DatePicker onChange={handleDateChange} style={{ width: '100%' }} />
+              <DatePicker
+                onChange={handleDateChange}
+                style={{ width: "100%" }}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
