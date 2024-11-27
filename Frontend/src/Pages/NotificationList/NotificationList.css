@@ -1,0 +1,36 @@
+/* NotificationList.css */
+
+/* Styles for Notification Details modal */
+.notification-details-modal {
+    max-width: 500px;
+    /* Adjust the maximum width as needed */
+    width: 100%;
+}
+
+.notification-details-modal .ant-modal-header {
+    background-color: #1890ff;
+    /* Header background color */
+    color: #fff;
+    /* Header text color */
+}
+
+.notification-details-modal .ant-modal-title {
+    font-size: 20px;
+    /* Title font size */
+}
+
+.notification-details-modal .ant-modal-body {
+    padding: 20px;
+}
+
+.notification-details-modal h3 {
+    font-size: 18px;
+    /* Heading font size */
+    margin-bottom: 5px;
+}
+
+.notification-details-modal p {
+    font-size: 16px;
+    /* Paragraph font size */
+    margin-bottom: 10px;
+}

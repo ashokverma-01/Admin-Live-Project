@@ -1,0 +1,31 @@
+/* Logout.scss */
+
+.popover-content {
+    width: 200px;
+    /* Adjust the width as needed */
+    padding: 10px;
+}
+
+.avatar-upload {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.avatar-upload .ant-avatar {
+    cursor: pointer;
+}
+
+.avatar-upload .ant-avatar:hover {
+    border: 2px solid #1890ff;
+    /* Change border color on hover */
+}
+
+.upload-button {
+    margin-left: 10px;
+}
+
+.logout-button {
+    margin-top: 10px;
+    width: 100%;
+}

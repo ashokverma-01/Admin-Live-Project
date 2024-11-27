@@ -1,0 +1,72 @@
+.largeWidget{
+    flex:2;
+    background-color: white;
+    -webkit-box-shadow: 0px 3px 9px 0px rgba(0, 0, 0, 0.27);
+    -moz-box-shadow: 0px 3px 9px 0px rgba(0, 0, 0, 0.27);
+    box-shadow: 0px 3px 9px 0px rgba(0, 0, 0, 0.27);
+    padding:20px;
+
+
+.largeWidgetTitle{
+font-size: 22px;
+font-weight: 600;
+}
+
+.largeWidgetTable{
+
+    width: 100%;
+    border-spacing: 20px;
+
+    .largeWidgetTr{
+
+        .largeWidgetTh{
+            text-align: left;
+        }
+
+        .largeWidgetProfile{
+
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            font-weight: 600;
+
+            .largeWidgetImage{
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-right: 10px;
+            }
+        }
+
+        .largeWidgetDate,.largeWidgetAmount{
+            font-weight: 100;
+        }
+
+        
+        .largeWidgetStatus{
+        .largeWidgetButton{
+            padding: 5px 7px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .Approved{
+            background-color: lightgreen;
+            color: darkgreen;
+        }
+
+        .Pending{
+            background-color: #ebf1fe;
+            color: darkblue;
+        }
+
+        .Declined{
+            background-color:lightcoral;
+            color: darkred;
+        }
+    }
+
+    }
+}
+}

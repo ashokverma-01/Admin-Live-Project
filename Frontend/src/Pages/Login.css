@@ -1,0 +1,47 @@
+/* Styles for the container div */
+.container2 {
+    background-color: hsl(172, 40%, 70%);
+    padding: 20px;
+    width: 400px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    margin-top: 80px;
+  }
+  
+  /* Styles for the h1 */
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  
+  /* Styles for the input fields */
+  input {
+    padding: 8px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Styles for the login button */
+  .btnform {
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 70px;
+  }
+  
+  .btnform button {
+    padding: 10px;
+  }
+  
+  /* Styles for the login button on hover */
+  button:hover {
+    background-color: #2980b9;
+  }

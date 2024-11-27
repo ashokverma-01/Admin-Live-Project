@@ -1,0 +1,27 @@
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+
+    .form-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .input-field {
+        width: 100%;
+    }
+
+    .form-select {
+        width: 100%;
+    }
+
+
+
+    .submit-btn {
+        width: 100%;
+    }
+}

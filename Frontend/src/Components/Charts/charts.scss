@@ -1,0 +1,64 @@
+/* Assuming you have a global stylesheet or use a CSS-in-JS solution */
+/* This is just a sample styling, you can customize it further as needed */
+
+.dashboard {
+    padding: 20px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 20px;
+}
+
+.grid-item {
+    text-align: center;
+    padding: 20px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.grid-item p {
+    margin-top: 10px;
+}
+
+.grid-item h2 {
+    margin-top: 5px;
+    font-size: 24px;
+}
+
+/* Icons color */
+.grid-item .svg-inline--fa {
+    font-size: 48px;
+}
+
+/* Specific background colors */
+.grid-item:nth-child(1) {
+    background-color: rgb(245, 53, 171);
+}
+
+.grid-item:nth-child(2) {
+    background-color: blue;
+}
+
+.grid-item:nth-child(3) {
+    background-color: green;
+}
+
+.grid-item:nth-child(4) {
+    background-color: orange;
+}
+
+
+.charts {
+    background-color: white;
+    width: auto;
+    height: 350px;
+    margin-top: 30px;
+    padding: 20px;
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+}
+
+.chartTitle {
+    margin-bottom: 2px
+}

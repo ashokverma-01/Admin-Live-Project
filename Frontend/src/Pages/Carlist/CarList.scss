@@ -1,0 +1,41 @@
+.card {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card2 {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.card3 {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.circular-image {
+    width: 60px;
+    /* Adjust as needed */
+    height: 60px;
+    /* Adjust as needed */
+    border-radius: 50%;
+    /* This creates a circular shape */
+    overflow: hidden;
+    /* Ensures the image stays within the circular shape */
+}
+
+.circular-image img {
+    width: 100%;
+    /* Ensures the image fills the circular container */
+    height: auto;
+    /* Maintains aspect ratio */
+    display: block;
+    /* Removes any default inline spacing */
+}
+
+.table-container {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Adjust values as needed */
+}
