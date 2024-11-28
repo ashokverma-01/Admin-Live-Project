@@ -12,6 +12,7 @@ import CarList from "./Pages/Carlist/CarList";
 import Car from "./Pages/CarPage/Car";
 import NewCar from "./Pages/CreateCar/NewCar";
 import Login from "./Pages/Login";
+import Signup from "./Pages/Signup";
 import ChangePassword from "./Pages/ChangePassword";
 import Protected from "./Pages/Protected";
 import Layout from "./Pages/Layout";
@@ -46,9 +47,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route
-          path="/Login"
+          path="/login"
           element={<Login setIsLoggedIn={setIsLoggedIn} />}
         />
+        <Route path="/signup" element={<Signup />} />
         <Route exact path="/ChangePassword" element={<ChangePassword />} />
         <Route
           path="/"

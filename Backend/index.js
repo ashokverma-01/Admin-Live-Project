@@ -17,6 +17,7 @@ const Model = require("./models/Model");
 const cors = require("cors");
 const path = require("path");
 const dotenv = require("dotenv");
+const bcrypt = require("bcrypt");
 
 dotenv.config();
 require("./db/Config.js");
@@ -51,8 +52,61 @@ app.use(
 app.use("/HotelImage", express.static(path.join(__dirname, "/HotelImage")));
 app.use("/BannerImage", express.static(path.join(__dirname, "/BannerImage")));
 
+//Signup
+
+app.post("/signup", async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    // Validate input
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        status: "failed",
+        message: "Name, email, and password are required fields.",
+      });
+    }
+
+    // Check if the user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({
+        status: "failed",
+        message: "Email is already registered. Please log in.",
+      });
+    }
+
+    // Hash the password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    await newUser.save();
+
+    res.status(201).json({
+      status: "success",
+      message: "Signup successful",
+      user: {
+        _id: newUser._id,
+        email: newUser.email,
+        name: newUser.name,
+      },
+    });
+  } catch (error) {
+    console.error("Error in /signup:", error);
+    res.status(500).json({
+      status: "failed",
+      message: "Unable to sign up. Internal server error.",
+    });
+  }
+});
+
 // Login Route
-app.post("/User", async (req, res) => {
+app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     console.log(req.body);
